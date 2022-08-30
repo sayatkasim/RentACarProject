@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,25 +25,18 @@ namespace DataAccess.Concrete.InMemory
                 new Car{Id = 5, BrandId = 1, ColorId = 3, DailyPrice = 139, Description = "Audi A5", FuelId = 1,ModelYear = 2021}
             };
         }
-        public List<Car> GetAll()
+        
+
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
             return _cars;
         }
 
-        public List<Car> GetAllByBrand(int brandId)
-        {
-           return _cars.Where(c => c.BrandId == brandId).ToList();
-        }
-
-        public Car GetById(int id)
+        public Car Get(Expression<Func<Car, bool>> filter)
         {
             throw new NotImplementedException();
         }
 
-        public Car GetByName(string name)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Add(Car car)
         {
