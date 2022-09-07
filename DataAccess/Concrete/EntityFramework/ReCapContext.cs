@@ -5,14 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class ReCapContext : DbContext
     {
+        protected readonly IConfiguration Configuration;
+
+        public ReCapContext(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=Server=127.0.0.1;Port=5432;Database=reCapDb;Integrated Security=true");
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("WebApiDatabase"));
         }
 
         public DbSet<Car> Cars { get; set; }
