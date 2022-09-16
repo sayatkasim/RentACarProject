@@ -11,15 +11,9 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class ReCapContext : DbContext
     {
-        protected readonly IConfiguration Configuration;
-
-        public ReCapContext(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("WebApiDatabase"));
+            optionsBuilder.UseSqlServer(@"Server=SAYATKASIMPC\SQLEXPRESS;Database=reCapDb;Trusted_Connection=True;");
         }
 
         public DbSet<Car> Cars { get; set; }
@@ -27,5 +21,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<Fuel> Fuels { get; set; }
+        public DbSet<Gear> Gears { get; set; }
     }
 }

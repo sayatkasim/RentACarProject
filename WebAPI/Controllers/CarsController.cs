@@ -2,6 +2,7 @@
 using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,22 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        [HttpGet(Name = "GetAllCars")]
+        [HttpGet("GetAllCars")]
         public List<Car> GetAll()
         {
             ICarService carService = new CarManager(new EfCarDal());
             var result = carService.GetAll();
-            return result.Data();
+            return result.ToList();
         }
+
+
+        [HttpGet("GetCarDetails")]
+        public List<CarDetailDto> GetCarDetails()
+        {
+            ICarService carService = new CarManager(new EfCarDal());
+            var result = carService.GetCarDetails();
+            return result.ToList();
+        }
+
     }
 }
