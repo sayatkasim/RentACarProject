@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
         {
             ICarService carService = new CarManager(new EfCarDal());
             var result = carService.GetAll();
-            return result.ToList();
+            return result.Data;
         }
 
 
@@ -27,7 +27,7 @@ namespace WebAPI.Controllers
         {
             ICarService carService = new CarManager(new EfCarDal());
             var result = carService.GetCarDetails();
-            return result.ToList();
+            return result.Data;
         }
 
         [HttpPost("CarAdd")]
