@@ -48,11 +48,11 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetAll()
         {
-            if (DateTime.Now.Hour==23)
+            if (DateTime.Now.Hour==11)
             {
                 return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.GetAll);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarsLists);
         }
 
         public IDataResult<List<Car>> GetAllByBrandId(int id)
@@ -67,7 +67,7 @@ namespace Business.Concrete
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(),Messages.CarsLists);
         }
 
         public IDataResult<Car> GetById(int carId)

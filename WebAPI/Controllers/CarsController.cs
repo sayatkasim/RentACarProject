@@ -13,36 +13,72 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        [HttpGet("GetAllCars")]
-        public List<Car> GetAll()
+        ICarService _carService;
+
+        public CarsController(ICarService carService)
         {
-            ICarService carService = new CarManager(new EfCarDal());
-            var result = carService.GetAll();
-            return result.Data;
+            _carService = carService;
+        }
+        [HttpGet("get")]
+        public IActionResult GetById(int id)
+        {
+            var result = _carService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("getallcars")]
+        public IActionResult GetAll()
+        {
+            var result = _carService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result.Message);
         }
 
 
-        [HttpGet("GetCarDetails")]
-        public List<CarDetailDto> GetCarDetails()
+        [HttpGet("getcardetails")]
+        public IActionResult GetCarDetails()
         {
-            ICarService carService = new CarManager(new EfCarDal());
-            var result = carService.GetCarDetails();
-            return result.Data;
+            var result = _carService.GetCarDetails();
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result.Message);
         }
 
-        [HttpPost("CarAdd")]
-        public void Add(Car car)
+        [HttpPost("caradd")]
+        public IActionResult Add(Car car)
         {
-            ICarService carService = new CarManager(new EfCarDal());
-            carService.Add(car);
+            var result = _carService.Add(car);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
         }
 
-        [HttpDelete("CarDelete")]
+        [HttpDelete("cardelete")]
         public void Delete(Car car)
         {
-            ICarService carService = new CarManager(new EfCarDal());
-            carService.Delete(car);
+            _carService.Delete(car);
         }
 
+        [HttpPut("carupdate")]
+        public IActionResult Update(Car car)
+        {
+            var result = _carService.Update(car);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
     }
 }
