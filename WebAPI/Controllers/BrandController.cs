@@ -12,12 +12,17 @@ namespace WebAPI.Controllers
     [ApiController]
     public class BrandController : ControllerBase
     {
+        IBrandService _brandService;
+
         [HttpGet(Name = "GetAllBrands")]
-        public List<Brand> GetAll()
+        public IActionResult GetAll()
         {
-            IBrandService brandService = new BrandManager(new EfBrandDal());
-            var result = brandService.GetAll();
-            return result.ToList();
+            var result = _brandService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result.Message);
         }
     }
 }

@@ -6,7 +6,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 
-CarManager carManager = new CarManager(new EfCarDal());
+CarManager carManager = new CarManager(new EfCarDal(),new BrandManager(new EfBrandDal()));
 
 var result = carManager.GetCarDetails();
 

@@ -14,5 +14,7 @@ namespace Business.Constants
         public static string CarsLists = "Araçlar Listelendi";
         public static string MaintenanceTime = "Sistem Bakımda";
         public static string CarNotFound = "Araç Bulunamadı";
+        public static string CarCountOfModelError = "Aynı Plakada Araç Tanımlanamaz";
+        public static string BrandlimitEceded = "Marka Sınırı Aşıldı";
     }
 }

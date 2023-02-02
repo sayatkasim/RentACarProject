@@ -8,6 +8,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,17 +20,25 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         ICarDal _carDal;
+        IBrandService _brandService;
 
-        public CarManager(ICarDal carDal)
+        public CarManager(ICarDal carDal, IBrandService brandService)
         {
             _carDal = carDal;
+            _brandService = brandService;
 
         }
 
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            ValidationTool.Validate(new CarValidator(), car);
+            IResult result =  BusinessRules.Run(CheckIfCarCountOfModelCorrect(car.ModelYear),
+                CheckIfLimitExceded());
+            
+            if (result != null)
+            {
+                return result;
+            }
 
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
@@ -76,6 +85,26 @@ namespace Business.Concrete
         public IDataResult<Car> GetById(int carId)
         {
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == carId));
+        }
+
+        private IResult CheckIfCarCountOfModelCorrect(int modelYear)
+        {
+            var result = _carDal.GetAll(c => c.ModelYear == modelYear).Count;
+            if (result >= 5 )
+            {
+                return new ErrorResult(Messages.CarCountOfModelError);
+            }
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfLimitExceded()
+        {
+            var result = _brandService.GetAll();
+            if (result.Data.Count>15)
+            {
+                return new ErrorResult(Messages.BrandlimitEceded);
+            }
+            return new SuccessResult();
         }
     }
 }
