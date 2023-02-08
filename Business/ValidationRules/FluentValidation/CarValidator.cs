@@ -17,7 +17,7 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(c => c.DailyPrice).NotEmpty();
             RuleFor(C => C.DailyPrice).GreaterThan(0);
             RuleFor(c => c.DailyPrice).GreaterThanOrEqualTo(329).When(c => c.BrandId == 2);
-            RuleFor(c => c.Description).Must(StartWithA);
+            //RuleFor(c => c.Description).Must(StartWithA);
         }
 
         private bool StartWithA(string arg)

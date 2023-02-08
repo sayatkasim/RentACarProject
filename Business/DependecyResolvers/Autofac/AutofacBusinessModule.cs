@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Business.DependecyResolvers.Autofac
 {
@@ -31,6 +32,8 @@ namespace Business.DependecyResolvers.Autofac
 
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
